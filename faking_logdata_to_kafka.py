@@ -1,10 +1,5 @@
-from cassandra.cluster import Cluster
-from cassandra.cqlengine import columns
-from cassandra.cqlengine.models import  Model
-from cassandra.cqlengine.management import sync_table
-from cassandra.cqlengine import connection
-from cassandra.query import dict_factory
 from datetime import datetime, timedelta
+from kafka import KafkaProducer
 import time
 import cassandra
 import random
@@ -18,6 +13,11 @@ import pandas as pd
 import numpy as np
 import mysql.connector
 from login_mysql import USER, PASSWORD, HOST, PORT, DB_NAME, URL, DRIVER
+import json
+
+KAFKA_BOOTSTRAP_SERVERS = "192.168.56.1:9092"
+producer = KafkaProducer(bootstrap_servers= KAFKA_BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+kafka_topic = "myproject"
 
 def get_data_from_job():
     cnx = mysql.connector.connect(user=USER, password=PASSWORD,
@@ -36,7 +36,7 @@ def get_data_from_publisher():
     return mysql_data
 
 
-def generating_dummy_data(n_records,session):
+def generating_dummy_data(n_records):
     publisher = get_data_from_publisher()
     publisher = publisher['publisher_id'].to_list()
     jobs_data = get_data_from_job()
@@ -56,13 +56,24 @@ def generating_dummy_data(n_records,session):
         group_id = random.choice(group_list)
         campaign_id = random.choice(campaign_list)
         ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        sql = """ INSERT INTO tracking (create_time,bid,campaign_id,custom_track,group_id,job_id,publisher_id,ts) VALUES ('{}',{},{},'{}',{},{},{},'{}')""".format(create_time,bid,campaign_id,custom_track,group_id,job_id,publisher_id,ts)
-        print(sql)
-        session.execute(sql)
+        data = {
+            "create_time": create_time,
+            "bid":bid,
+            "campaign_id":campaign_id,
+            "custom_track":custom_track,
+            "group_id":group_id,
+            "job_id":job_id,
+            "publisher_id":publisher_id,
+            "ts":ts,
+        }
+        producer.send(kafka_topic, value=data)
         i+=1 
+    producer.close()
     return print("Data Generated Successfully")
 
 status = "ON"
 while status == "ON":
     generating_dummy_data(n_records = random.randint(1,20),session = session)
     time.sleep(10)
+
+
