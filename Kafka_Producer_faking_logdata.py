@@ -16,8 +16,8 @@ import mysql.connector
 from login_mysql import USER, PASSWORD, HOST, PORT, DB_NAME, URL, DRIVER
 import json
 
-KAFKA_BOOTSTRAP_SERVERS = "192.168.56.1:9092"
-producer = KafkaProducer(bootstrap_servers= KAFKA_BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+kafka_bootstrap_severs = "192.168.56.1:9092"
+producer = KafkaProducer(bootstrap_servers= kafka_bootstrap_severs, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 kafka_topic = "myproject"
 
 def get_data_from_job():
