@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from kafka import KafkaProducer
+from cassandra.cqlengine.models import  Model
 import time
 import cassandra
 import random
@@ -66,14 +67,14 @@ def generating_dummy_data(n_records):
             "publisher_id":publisher_id,
             "ts":ts,
         }
+        print(data)
         producer.send(kafka_topic, value=data)
         i+=1 
-    producer.close()
     return print("Data Generated Successfully")
 
 status = "ON"
 while status == "ON":
-    generating_dummy_data(n_records = random.randint(1,20),session = session)
-    time.sleep(10)
-
+    generating_dummy_data(n_records = random.randint(1,5))
+    time.sleep(1)
+producer.close()
 
