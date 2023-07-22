@@ -73,3 +73,4 @@ while status == "ON":
     generating_dummy_data(n_records = random.randint(1,20),session = session)
     time.sleep(10)
 
+
