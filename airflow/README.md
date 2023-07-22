@@ -13,7 +13,6 @@
 docker-compose up
 ```
 
-2. Put your DAG files to `dags/`
-3. Visit: http://localhost:8080
+2. Visit: http://localhost:8080
 
 
