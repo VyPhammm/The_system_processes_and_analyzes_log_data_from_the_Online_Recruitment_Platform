@@ -81,7 +81,8 @@ root
 
 ### Visualizing Data with Grafana
 
-<img width="929" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/7a977cbb-7739-433a-8d45-54eab37381e8">
+<img width="1000" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/cf615bd0-5af4-4fa1-9af7-090157900b34">
+
 
 ## Setup
 ### Pre-requisite
