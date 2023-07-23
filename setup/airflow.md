@@ -1,4 +1,4 @@
-## Setup Airflow
+# Setup Airflow
  We will setup airflow on docker
 - Clone git repo
 
