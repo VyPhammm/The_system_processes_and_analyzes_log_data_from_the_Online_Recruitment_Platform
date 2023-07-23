@@ -1,21 +1,112 @@
 # The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform
-This project focuses on building a system for processing and analyzing data from system logs. The main objective is to collect and process log data from various systems and applications, then store it in distributed databases like Cassandra (Data lake) for saving and MySQL for data warehousing.
-Kafka for the messaging queue and put the raw data to Cassandra, PySpark for transforming the data from Cassandra then put the processed data to MySQL, MySQL for data warehousing, Airflow for scheduling the Python scripts. Using Docker to deploy the project easily.
-- Tech stack: PySpark, Airflow, Kafka, Docker, Cassandra, MySQL.
+## Objective
+This project focuses on building a data processing and analysis system from log data from users of a recruitment website. The main goal is to store, process, analyze that log data and decide the next step of the business development.
+Kafka for the messaging queue and put the raw data to Cassandra (Data Lake), PySpark for transforming the data from Cassandra then put the processed data to MySQL, MySQL for data warehousing, Airflow for scheduling the Python scripts. Using Docker to deploy the project easily.
+- Tech stack: PySpark, Airflow, Kafka, Docker, Cassandra, MySQL, Python.
 
+## Architecture
+  ![image](https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/bee618fb-cf02-4f61-a9ce-f156e78ef69c)
 
+### Raw Data
+- Log data from the website is processed real-time into Kafka, and from Kafka saved to the Data Lake is Cassandra.
+- Log data schema
+```sh
+.
+root
+ |-- create_time: string (nullable = false)
+ |-- bid: integer (nullable = true)
+ |-- bn: string (nullable = true)
+ |-- campaign_id: integer (nullable = true)
+ |-- cd: integer (nullable = true)
+ |-- custom_track: string (nullable = true)
+ |-- de: string (nullable = true)
+ |-- dl: string (nullable = true)
+ |-- dt: string (nullable = true)
+ |-- ed: string (nullable = true)
+ |-- ev: integer (nullable = true)
+ |-- group_id: integer (nullable = true)
+ |-- id: string (nullable = true)
+ |-- job_id: integer (nullable = true)
+ |-- md: string (nullable = true)
+ |-- publisher_id: integer (nullable = true)
+ |-- rl: string (nullable = true)
+ |-- sr: string (nullable = true)
+ |-- ts: string (nullable = true)
+ |-- tz: integer (nullable = true)
+ |-- ua: string (nullable = true)
+ |-- uid: string (nullable = true)
+ |-- utm_campaign: string (nullable = true)
+ |-- utm_content: string (nullable = true)
+ |-- utm_medium: string (nullable = true)
+ |-- utm_source: string (nullable = true)
+ |-- utm_term: string (nullable = true)
+ |-- v: integer (nullable = true)
+ |-- vp: string (nullable = true)
+```
+<img width="1000" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/6d64c320-b765-462b-94fb-77954051faf8">
 
+### Processing Data
+Read and review the data recording user actions in the log data, notice that there are actions with analytical value in the column ```["custom_track"]``` including: ```clicks, conversion, qualified, unqualified```.
+Processing raw data to obtain valuable clean data:
+- Filter actions with analytical value in column ```["custom_track"]``` including: ```clicks, conversion, qualified, unqualified```.
+- Remove null values, replace with 0 to be able to calculate.
+- Calculate the basic values of data for in-depth analysis.
+- Use pySpark to write Spark jobs and process data efficiently.
+- Data after processing is saved to Data Warehouse is MySQL for storage and in-depth analysis.
+- Use airflow to schedule Spark-jobs every 6 Am every day.
 
+### Clean data
+- Clean Data schema
+```sh
+.
+root
+ |-- job_id: integer (nullable = true)
+ |-- dates: timestamp (nullable = true)
+ |-- hours: integer (nullable = true)
+ |-- disqualified_application: integer (nullable = true)
+ |-- qualified_application: integer (nullable = true)
+ |-- conversion: integer (nullable = true)
+ |-- company_id: integer (nullable = true)
+ |-- group_id: integer (nullable = true)
+ |-- campaign_id: integer (nullable = true)
+ |-- publisher_id: integer (nullable = true)
+ |-- bid_set: double (nullable = true)
+ |-- clicks: integer (nullable = true)
+ |-- impressions: string (nullable = true)
+ |-- spend_hour: double (nullable = true)
+ |-- sources: string (nullable = true)
+ |-- latest_update_time: timestamp (nullable = true)
+```
+<img width="1000" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/bcdd7917-a9e6-483c-8080-0864054bddc1">
 
-
-## Pre-requisite
-### Kafka setup
-- Read "Run kafka sever.txt" in folder "kafka".
-### Spark setup
+## Setup
+### Pre-requisite
+#### Kafka setup
+- Read instructions in file ```kafka\Run kafka sever.txt```.
+#### Spark setup
 - Install Spark (used 3.4.0)
-### Airflow setup
+#### Airflow setup
 - Install Airflow in Docker Compose
-### Cassandra setup
+#### Cassandra setup
 - Install Cassandra
-### MySQL setup
+#### MySQL setup
 - Install MySQL
+### Get Going!
+1/ Setup Kafka service and start sending log data from website
+```sh
+#cd to the directory of kafka
+#start zoo keeper
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+#start kafka server
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+#create kafka topic - kafka topic name: "myproject"
+.\bin\windows\kafka-topics.bat --create --bootstrap-server 192.168.56.1:9092 --replication-factor 1 --partitions 1 --topic myproject
+
+# Send log data to kafka topic through kafka producer
+- Run script "kafka/kafka_producer_faking_logdata.py"
+# Read data from kafka topic and storage in Data Lake: Cassandra
+- Run script "kafka/consume_from_kafka_to_cassandra.py"
+```
+
+2/ Setup Airflow to trigger the daily data pipeline
+ 
