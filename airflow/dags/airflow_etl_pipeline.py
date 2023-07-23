@@ -10,7 +10,7 @@ def task3():
 
 commands_task1 = """
     cd .\The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform\ETL_spark_job;
-    spark-submit --packages com.datastax.spark:spark-cassandra-connector_2.12:3.1.0 check_condition.py;
+    spark-submit --packages com.datastax.spark:spark-cassandra-connector_2.12:3.1.0 check_new_data.py;
     """
 
 commands_task2 = """
