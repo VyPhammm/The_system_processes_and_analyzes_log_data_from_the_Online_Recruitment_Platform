@@ -94,6 +94,7 @@ root
 ## Get Going!
 - Setup Kafka service and start sending log data from website [Setup](setup/kafka.md)
 - Setup Airflow to trigger the daily data pipeline [Setup](setup/airflow.md)
+- Setup Grafana to visualization data [Setup](setup/grafana.md)
 # How can I make this better?!
 A lot can still be done.
  
