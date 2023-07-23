@@ -92,21 +92,7 @@ root
 #### MySQL setup
 - Install MySQL
 ### Get Going!
-1/ Setup Kafka service and start sending log data from website
-```sh
-#cd to the directory of kafka
-#start zoo keeper
-.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
-#start kafka server
-.\bin\windows\kafka-server-start.bat .\config\server.properties
-#create kafka topic - kafka topic name: "myproject"
-.\bin\windows\kafka-topics.bat --create --bootstrap-server 192.168.56.1:9092 --replication-factor 1 --partitions 1 --topic myproject
+- Setup Kafka service and start sending log data from website [Setup](setup/kafka.md)
+- Setup Airflow to trigger the daily data pipeline
 
-# Send log data to kafka topic through kafka producer
-- Run script "kafka/kafka_producer_faking_logdata.py"
-# Read data from kafka topic and storage in Data Lake: Cassandra
-- Run script "kafka/consume_from_kafka_to_cassandra.py"
-```
-
-2/ Setup Airflow to trigger the daily data pipeline
  
