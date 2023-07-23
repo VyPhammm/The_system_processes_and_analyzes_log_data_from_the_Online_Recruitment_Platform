@@ -1,8 +1,8 @@
 # The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform
 ## Objective
 This project focuses on building a data processing and analysis system from log data from users of a recruitment website. The main goal is to store, process, analyze that log data and decide the next step of the business development.
-Kafka for the messaging queue and put the raw data to Cassandra (Data Lake), PySpark for transforming the data from Cassandra then put the processed data to MySQL, MySQL for data warehousing, Airflow for scheduling the Python scripts. Using Docker to deploy the project easily.
-- Tech stack: PySpark, Airflow, Kafka, Docker, Cassandra, MySQL, Python.
+Kafka for the messaging queue and put the raw data to Cassandra (Data Lake), PySpark for transforming the data from Cassandra then put the processed data to MySQL, MySQL for data warehousing, Airflow for scheduling the Python scripts. Visualizing Data with Grafana. Using Docker to deploy the project easily.
+- Tech stack: PySpark, Airflow, Kafka, Docker, Cassandra, MySQL, Grafana, Python.
 
 ## Architecture
   ![image](https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/bee618fb-cf02-4f61-a9ce-f156e78ef69c)
@@ -79,6 +79,10 @@ root
 ```
 <img width="1000" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/bcdd7917-a9e6-483c-8080-0864054bddc1">
 
+### Visualizing Data with Grafana
+
+<img width="929" alt="image" src="https://github.com/VyPhammm/The_system_processes_and_analyzes_log_data_from_the_Online_Recruitment_Platform/assets/127418764/7a977cbb-7739-433a-8d45-54eab37381e8">
+
 ## Setup
 ### Pre-requisite
 #### Kafka setup
@@ -94,7 +98,6 @@ root
 ## Get Going!
 - Setup Kafka service and start sending log data from website [Setup](setup/kafka.md)
 - Setup Airflow to trigger the daily data pipeline [Setup](setup/airflow.md)
-- Setup Grafana to visualization data [Setup](setup/grafana.md)
-# How can I make this better?!
-A lot can still be done.
+- Setup Grafana for data visualization [Setup](setup/grafana.md)
+
  
