@@ -22,8 +22,8 @@ commands_task2 = """
 dag = DAG(
     'my_dag',
     description='DAG to trigger pySpark job',
-    schedule_interval='*/2 * * * *',
-    start_date= datetime(2023, 3, 19)
+    schedule_interval= '0 6 * * *',
+    start_date= datetime(2023, 7, 20)
 )
 
 
