@@ -91,8 +91,9 @@ root
 - Install Cassandra
 #### MySQL setup
 - Install MySQL
-### Get Going!
+## Get Going!
 - Setup Kafka service and start sending log data from website [Setup](setup/kafka.md)
-- Setup Airflow to trigger the daily data pipeline
-
+- Setup Airflow to trigger the daily data pipeline [Setup](setup/airflow.md)
+# How can I make this better?!
+A lot can still be done.
  
